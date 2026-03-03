@@ -1,0 +1,45 @@
+# ─── Secrets & credentials ───────────────────────────────────────────────────
+.env
+.env.local
+.env.production
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+credentials.*
+secrets.*
+nginx/ssl/
+
+# ─── Database ─────────────────────────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+
+# ─── .NET ─────────────────────────────────────────────────────────────────────
+**/bin/
+**/obj/
+**/publish/
+*.user
+.vs/
+*.suo
+*.ncrunch*
+
+# ─── Node / Next.js ───────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+slp-frontend/.env
+slp-frontend/.env.local
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+# (docker-compose.yml is committed, .env is not)
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
