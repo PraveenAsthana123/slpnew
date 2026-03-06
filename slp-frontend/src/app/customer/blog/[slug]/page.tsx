@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { blogApi, BlogPost } from '@/lib/api';
+import SafeHtml from '@/components/SafeHtml';
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -118,9 +119,9 @@ export default function CustomerBlogPostPage() {
       </div>
 
       {/* Content */}
-      <div
+      <SafeHtml
+        html={post.content}
         className="mt-8 prose max-w-none text-gray-700 leading-relaxed prose-headings:text-gray-900 prose-a:text-blue-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded"
-        dangerouslySetInnerHTML={{ __html: post.content }}
       />
 
       {/* Tags */}

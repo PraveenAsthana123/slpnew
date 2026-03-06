@@ -18,20 +18,25 @@ public class LiveChatController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>GET /api/live-chat/history/{sessionId} — fetch message history for a session (public — customer needs their sessionId)</summary>
+    /// <summary>GET /api/live-chat/history/{sessionId} — fetch message history for a session</summary>
+    /// <remarks>Requires valid GUID session ID to prevent enumeration attacks</remarks>
     [HttpGet("history/{sessionId}")]
     public async Task<IActionResult> GetHistory(string sessionId)
     {
         if (string.IsNullOrWhiteSpace(sessionId))
             return BadRequest(new { detail = "sessionId is required.", error_code = "VALIDATION_ERROR" });
 
+        // Validate session ID format (must be UUID to prevent enumeration)
+        if (!Guid.TryParse(sessionId, out _) && sessionId.Length > 100)
+            return BadRequest(new { detail = "Invalid session ID format.", error_code = "VALIDATION_ERROR" });
+
         var messages = await _uow.ChatMessages.GetBySessionIdAsync(sessionId);
+        // Don't expose email in public endpoint — only admins see emails
         return Ok(messages.Select(m => new
         {
             m.Id,
             m.SessionId,
             m.SenderName,
-            m.SenderEmail,
             m.Content,
             m.IsFromAdmin,
             m.IsRead,

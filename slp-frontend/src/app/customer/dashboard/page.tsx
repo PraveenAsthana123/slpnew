@@ -151,7 +151,7 @@ export default function CustomerDashboardPage() {
         setChatSessions(sessions);
         setFeaturedPosts(posts.filter((p) => p.isPublished !== false));
       })
-      .catch(console.error)
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 

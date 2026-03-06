@@ -40,6 +40,9 @@ try
         options.Password.RequiredLength = 8;
         options.User.RequireUniqueEmail = true;
         options.SignIn.RequireConfirmedAccount = false;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.AllowedForNewUsers = true;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -48,8 +51,8 @@ try
     builder.Services.ConfigureApplicationCookie(options =>
     {
         options.Cookie.HttpOnly = true;
-        options.Cookie.SameSite = SameSiteMode.None;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
         options.Events.OnRedirectToLogin = context =>
@@ -92,8 +95,8 @@ try
         options.AddPolicy("NextJsPolicy", policy =>
         {
             policy.WithOrigins(allowedOrigins)
-                .AllowAnyHeader()
-                .AllowAnyMethod()
+                .WithHeaders("Content-Type", "Authorization", "X-Correlation-Id", "X-Requested-With")
+                .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .AllowCredentials();
         });
     });
@@ -115,7 +118,11 @@ try
         .AddDbContextCheck<ApplicationDbContext>("database");
 
     // ─── SignalR ────────────────────────────────────────────────
-    builder.Services.AddSignalR();
+    builder.Services.AddSignalR(options =>
+    {
+        options.MaximumReceiveMessageSize = 64 * 1024; // 64KB max message size
+        options.EnableDetailedErrors = builder.Environment.IsDevelopment();
+    });
 
     // ─── Background Services ──────────────────────────────────
     builder.Services.AddHostedService<SLPSystems.Web.Services.Implementations.DataCleanupService>();

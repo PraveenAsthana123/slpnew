@@ -25,7 +25,7 @@ export default function AdminLiveChatPage() {
     liveChatApi
       .getSessions(72)
       .then(setSessions)
-      .catch(console.error)
+      .catch(() => {})
       .finally(() => setLoadingSessions(false));
   }, []);
 
@@ -78,7 +78,7 @@ export default function AdminLiveChatPage() {
         setConnected(true);
         return hub.invoke('JoinAdminRoom');
       })
-      .catch((err) => console.error('Admin SignalR error:', err));
+      .catch(() => {});
 
     hubRef.current = hub;
     return () => { hub.stop(); };
@@ -96,8 +96,8 @@ export default function AdminLiveChatPage() {
         await hubRef.current.invoke('MarkRead', sessionId);
       }
       setSessions((prev) => prev.map((s) => s.sessionId === sessionId ? { ...s, unreadCount: 0 } : s));
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Session load failure handled silently
     }
   };
 

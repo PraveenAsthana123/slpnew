@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { BlogPost } from '@/lib/api';
+import SafeHtml from '@/components/SafeHtml';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
 
@@ -164,10 +165,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* HTML Content */}
-          <div
-            className="prose-content text-dark-700 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <SafeHtml html={post.content} className="prose-content text-dark-700 leading-relaxed" />
 
           {/* Tags */}
           {tags.length > 0 && (

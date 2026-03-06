@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { jobsApi, JobPosting, ApplyJobRequest } from '@/lib/api';
+import SafeHtml from '@/components/SafeHtml';
 
 export default function JobDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -130,9 +131,9 @@ export default function JobDetailPage() {
             {job.description && (
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Job Description</h2>
-                <div
+                <SafeHtml
+                  html={job.description}
                   className="prose prose-blue max-w-none text-gray-700 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-4 [&_h3]:mb-2 [&_strong]:font-semibold [&_strong]:text-gray-900"
-                  dangerouslySetInnerHTML={{ __html: job.description }}
                 />
               </div>
             )}
@@ -140,9 +141,9 @@ export default function JobDetailPage() {
             {job.requirements && (
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Requirements</h2>
-                <div
+                <SafeHtml
+                  html={job.requirements}
                   className="prose prose-blue max-w-none text-gray-700 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_strong]:font-semibold"
-                  dangerouslySetInnerHTML={{ __html: job.requirements }}
                 />
               </div>
             )}
@@ -150,9 +151,9 @@ export default function JobDetailPage() {
             {job.niceToHave && (
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Nice to Have</h2>
-                <div
+                <SafeHtml
+                  html={job.niceToHave}
                   className="prose prose-blue max-w-none text-gray-700 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_strong]:font-semibold"
-                  dangerouslySetInnerHTML={{ __html: job.niceToHave }}
                 />
               </div>
             )}

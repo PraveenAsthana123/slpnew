@@ -12,11 +12,12 @@ public static class SeedData
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
         await context.Database.EnsureCreatedAsync();
 
         await SeedRolesAsync(roleManager);
-        await SeedAdminUserAsync(userManager);
+        await SeedAdminUserAsync(userManager, config);
         await SeedSiteSettingsAsync(context);
         await SeedBlogCategoriesAsync(context);
         await SeedServicesAsync(context);
@@ -44,10 +45,13 @@ public static class SeedData
         }
     }
 
-    private static async Task SeedAdminUserAsync(UserManager<IdentityUser> userManager)
+    private static async Task SeedAdminUserAsync(UserManager<IdentityUser> userManager, IConfiguration config)
     {
-        const string adminEmail = "admin@slpsystems.ca";
-        const string adminPassword = "Admin@123456";
+        var adminEmail = config["Admin:Email"];
+        var adminPassword = config["Admin:Password"];
+
+        if (string.IsNullOrEmpty(adminEmail) || string.IsNullOrEmpty(adminPassword))
+            return; // Skip seeding if credentials not configured
 
         if (await userManager.FindByEmailAsync(adminEmail) == null)
         {

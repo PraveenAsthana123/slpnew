@@ -29,6 +29,11 @@ public class ChatHub : Hub
     // ── Customer: join their session group ────────────────────────────────────
     public async Task JoinSession(string sessionId, string name, string email)
     {
+        if (string.IsNullOrWhiteSpace(sessionId) || sessionId.Length > 100)
+            throw new HubException("Invalid session ID.");
+        if (string.IsNullOrWhiteSpace(name) || name.Length > 200)
+            throw new HubException("Invalid name.");
+
         await Groups.AddToGroupAsync(Context.ConnectionId, $"session-{sessionId}");
 
         _logger.LogInformation("Customer {Name} joined session {SessionId}", name, sessionId);
@@ -53,6 +58,13 @@ public class ChatHub : Hub
     // ── Customer sends a message ──────────────────────────────────────────────
     public async Task SendMessage(string sessionId, string name, string email, string content, string? customerId = null)
     {
+        if (string.IsNullOrWhiteSpace(sessionId) || sessionId.Length > 100)
+            throw new HubException("Invalid session ID.");
+        if (string.IsNullOrWhiteSpace(content))
+            throw new HubException("Message content is required.");
+        if (content.Length > 5000)
+            throw new HubException("Message too long. Maximum 5000 characters.");
+
         var msg = new ChatMessage
         {
             SessionId = sessionId,
@@ -88,6 +100,13 @@ public class ChatHub : Hub
     // ── Admin replies to a specific session ───────────────────────────────────
     public async Task AdminReply(string sessionId, string adminName, string content)
     {
+        if (string.IsNullOrWhiteSpace(sessionId) || sessionId.Length > 100)
+            throw new HubException("Invalid session ID.");
+        if (string.IsNullOrWhiteSpace(content))
+            throw new HubException("Message content is required.");
+        if (content.Length > 5000)
+            throw new HubException("Message too long. Maximum 5000 characters.");
+
         var msg = new ChatMessage
         {
             SessionId = sessionId,

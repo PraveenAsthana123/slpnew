@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { CaseStudy } from '@/lib/api';
+import SafeHtml from '@/components/SafeHtml';
 
 interface CaseStudiesSectionProps {
   caseStudies: CaseStudy[];
@@ -46,10 +47,7 @@ export default function CaseStudiesSection({ caseStudies }: CaseStudiesSectionPr
                   {/* Icon */}
                   <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-5">
                     {study.iconSvg ? (
-                      <div
-                        className="w-6 h-6 text-white [&>svg]:w-full [&>svg]:h-full"
-                        dangerouslySetInnerHTML={{ __html: study.iconSvg }}
-                      />
+                      <SafeHtml html={study.iconSvg} className="w-6 h-6 text-white [&>svg]:w-full [&>svg]:h-full" svg />
                     ) : (
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

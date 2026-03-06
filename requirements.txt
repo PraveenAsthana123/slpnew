@@ -1,0 +1,93 @@
+# ============================================================
+# SLP Systems Portal — Project Requirements
+# ============================================================
+# This file lists ALL dependencies for both backend and frontend.
+# Last updated: 2026-03-06
+# ============================================================
+
+# ------------------------------------------------------------
+# RUNTIME PREREQUISITES
+# ------------------------------------------------------------
+# .NET SDK                    >= 8.0
+# Node.js                     >= 20.0
+# npm                         >= 10.0
+# Git                         >= 2.40
+# Docker                      >= 24.0       (production only)
+# Docker Compose              >= 2.20       (production only)
+# cloudflared                 latest        (optional — Cloudflare tunnel)
+
+# ------------------------------------------------------------
+# BACKEND — .NET 8 NuGet Packages
+# ------------------------------------------------------------
+# Install: dotnet restore
+# File:    SLPSystems/SLPSystems.Web/SLPSystems.Web.csproj
+# ------------------------------------------------------------
+Microsoft.AspNetCore.Identity.EntityFrameworkCore    8.0.*
+Microsoft.EntityFrameworkCore.Sqlite                 8.0.*
+Microsoft.EntityFrameworkCore.Tools                  8.0.*
+Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore  8.0.*
+Serilog.AspNetCore                                   8.0.*
+Swashbuckle.AspNetCore                               6.5.0
+
+# .NET Global Tools
+# dotnet tool install --global dotnet-ef
+
+# ------------------------------------------------------------
+# FRONTEND — Node.js Production Dependencies
+# ------------------------------------------------------------
+# Install: cd slp-frontend && npm install
+# File:    slp-frontend/package.json
+# ------------------------------------------------------------
+next                                ^14.2.35
+react                               ^18.3.1
+react-dom                           ^18.3.1
+@microsoft/signalr                  ^10.0.0
+@tiptap/react                       ^3.20.0
+@tiptap/starter-kit                 ^3.20.0
+@tiptap/extension-placeholder       ^3.20.0
+
+# ------------------------------------------------------------
+# FRONTEND — Node.js Dev Dependencies
+# ------------------------------------------------------------
+typescript                          ^5.9.3
+tailwindcss                         ^3.4.19
+postcss                             ^8.5.6
+autoprefixer                        ^10.4.24
+eslint                              ^8.57.1
+eslint-config-next                  ^14.2.35
+@types/node                         ^25.3.0
+@types/react                        ^19.2.14
+@types/react-dom                    ^19.2.3
+
+# ------------------------------------------------------------
+# DOCKER IMAGES (production deployment)
+# ------------------------------------------------------------
+# mcr.microsoft.com/dotnet/sdk       8.0-alpine    (build stage)
+# mcr.microsoft.com/dotnet/aspnet    8.0-alpine    (runtime)
+# node                               20-alpine     (frontend)
+# nginx                              1.25-alpine   (reverse proxy)
+
+# ------------------------------------------------------------
+# PORTS
+# ------------------------------------------------------------
+# 3000   Next.js Frontend        (HTTP)
+# 5062   .NET Backend API        (HTTP)
+# 80     Nginx production        (HTTP)
+# 443    Nginx production        (HTTPS)
+
+# ------------------------------------------------------------
+# ENVIRONMENT VARIABLES (required)
+# ------------------------------------------------------------
+# NEXT_PUBLIC_API_URL          = http://localhost:5062
+# ASPNETCORE_ENVIRONMENT       = Development
+
+# ENVIRONMENT VARIABLES (optional)
+# NEXT_PUBLIC_SITE_URL         = https://slpsystems.ca
+# ASPNETCORE_URLS              = http://+:5062
+# AllowedOrigins__0            = http://localhost:3000
+# RateLimit__MaxRequests        = 100
+# RateLimit__WindowSeconds      = 60
+# SMTP_HOST                    = (mail server)
+# SMTP_PORT                    = 587
+# SMTP_USERNAME                = (email)
+# SMTP_PASSWORD                = (password)

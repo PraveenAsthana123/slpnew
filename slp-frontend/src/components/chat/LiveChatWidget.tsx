@@ -63,8 +63,8 @@ export default function LiveChatWidget() {
         },
       ]);
       setStage('chat');
-    } catch (err) {
-      console.error('Chat connection failed:', err);
+    } catch {
+      // Connection failure handled silently — user sees "Connecting..." status
     }
   };
 

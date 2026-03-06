@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Service } from '@/lib/api';
+import SafeHtml from '@/components/SafeHtml';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
 
@@ -135,10 +136,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <h2 className="text-2xl md:text-3xl font-bold text-dark-900 mb-6">
                 About This Service
               </h2>
-              <div
-                className="prose-content text-dark-600 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: service.fullDescription }}
-              />
+              <SafeHtml html={service.fullDescription} className="prose-content text-dark-600 leading-relaxed" />
 
               {/* Features Section */}
               {features.length > 0 && (
@@ -256,10 +254,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 >
                   <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary-600 transition-colors">
                     {s.iconSvg ? (
-                      <div
-                        className="w-6 h-6 text-primary-600 group-hover:text-white transition-colors"
-                        dangerouslySetInnerHTML={{ __html: s.iconSvg }}
-                      />
+                      <SafeHtml html={s.iconSvg} className="w-6 h-6 text-primary-600 group-hover:text-white transition-colors" svg />
                     ) : (
                       <svg className="w-6 h-6 text-primary-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />

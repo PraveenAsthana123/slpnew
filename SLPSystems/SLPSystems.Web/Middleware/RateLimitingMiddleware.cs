@@ -10,6 +10,8 @@ public class RateLimitingMiddleware
     private readonly int _maxRequests;
     private readonly TimeSpan _window;
     private readonly ConcurrentDictionary<string, ClientRequestInfo> _clients = new();
+    private DateTime _lastCleanup = DateTime.UtcNow;
+    private readonly TimeSpan _cleanupInterval = TimeSpan.FromMinutes(5);
 
     public RateLimitingMiddleware(
         RequestDelegate next,
@@ -27,6 +29,21 @@ public class RateLimitingMiddleware
     {
         var clientIp = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
         var now = DateTime.UtcNow;
+
+        // Periodic cleanup of stale entries to prevent memory leak
+        if (now - _lastCleanup > _cleanupInterval)
+        {
+            _lastCleanup = now;
+            foreach (var kvp in _clients)
+            {
+                lock (kvp.Value)
+                {
+                    kvp.Value.Requests.RemoveAll(t => now - t > _window);
+                    if (kvp.Value.Requests.Count == 0)
+                        _clients.TryRemove(kvp.Key, out _);
+                }
+            }
+        }
 
         var clientInfo = _clients.GetOrAdd(clientIp, _ => new ClientRequestInfo());
 
@@ -73,6 +90,10 @@ public class SecurityHeadersMiddleware
         context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
         context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
         context.Response.Headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()";
+        context.Response.Headers["Content-Security-Policy"] =
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+            "style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; " +
+            "font-src 'self' data:; connect-src 'self' ws: wss:;";
 
         await _next(context);
     }

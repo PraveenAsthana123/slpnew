@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { IndustrySolution } from '@/lib/api';
+import SafeHtml from '@/components/SafeHtml';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
 
@@ -104,10 +105,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
               <div className="flex items-center gap-4 mb-6">
                 {industry.iconSvg && (
                   <div className="w-16 h-16 bg-primary-500/20 rounded-2xl flex items-center justify-center">
-                    <div
-                      className="w-8 h-8 text-primary-400"
-                      dangerouslySetInnerHTML={{ __html: industry.iconSvg }}
-                    />
+                    <SafeHtml html={industry.iconSvg} className="w-8 h-8 text-primary-400" svg />
                   </div>
                 )}
                 <span className="px-3 py-1 bg-accent-500/20 text-accent-400 text-sm font-semibold rounded-full">
@@ -161,10 +159,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
           <h2 className="text-2xl md:text-3xl font-bold text-dark-900 mb-8">
             Industry Overview
           </h2>
-          <div
-            className="prose-content text-dark-600 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: industry.fullDescription }}
-          />
+          <SafeHtml html={industry.fullDescription} className="prose-content text-dark-600 leading-relaxed" />
         </div>
       </section>
 
@@ -279,10 +274,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
                 >
                   {ind.iconSvg && (
                     <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary-600 transition-colors">
-                      <div
-                        className="w-6 h-6 text-primary-600 group-hover:text-white transition-colors"
-                        dangerouslySetInnerHTML={{ __html: ind.iconSvg }}
-                      />
+                      <SafeHtml html={ind.iconSvg} className="w-6 h-6 text-primary-600 group-hover:text-white transition-colors" svg />
                     </div>
                   )}
                   <h3 className="font-semibold text-dark-900 mb-2 group-hover:text-primary-600 transition-colors">

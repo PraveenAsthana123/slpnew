@@ -71,7 +71,7 @@ function CustomerBlogInner() {
         setTotal(data.total);
         setCategories(cats);
       })
-      .catch(console.error)
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [page, categoryId, search]);
 

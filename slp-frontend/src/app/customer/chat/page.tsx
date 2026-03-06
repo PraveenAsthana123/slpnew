@@ -53,7 +53,7 @@ function CustomerChatInner() {
         setConnected(true);
         return hub.invoke('JoinSession', sessionId, user?.name ?? 'Customer', user?.email ?? '');
       })
-      .catch((err) => console.error('SignalR error:', err));
+      .catch(() => {});
 
     hubRef.current = hub;
     return () => {

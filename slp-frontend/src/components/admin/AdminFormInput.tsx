@@ -3,7 +3,7 @@
 interface AdminFormInputProps {
   label: string;
   name: string;
-  type?: 'text' | 'email' | 'password' | 'number' | 'url' | 'tel';
+  type?: 'text' | 'email' | 'password' | 'number' | 'url' | 'tel' | 'color' | 'date';
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
