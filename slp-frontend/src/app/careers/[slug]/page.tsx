@@ -61,7 +61,7 @@ export default function JobDetailPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-16 text-white">
+      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 pt-32 pb-16 text-white">
         <div className="container mx-auto px-4">
           <Link href="/careers" className="inline-flex items-center gap-2 text-blue-300 hover:text-white text-sm mb-6 transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -95,7 +95,7 @@ export const homeApi = {
 export const servicesApi = {
   getAll: () => fetchApi<Service[]>('/api/services'),
   getFeatured: () => fetchApi<Service[]>('/api/services/featured'),
-  getBySlug: (slug: string) => fetchApi<Service>(`/api/services/slug/${slug}`),
+  getBySlug: (slug: string) => fetchApi<Service>(`/api/services/${slug}`),
   getByCategory: (category: string) => fetchApi<Service[]>(`/api/services/category/${category}`),
   create: (data: Partial<Service>) => fetchApi<Service>('/api/services', { method: 'POST', body: JSON.stringify(data) }),
   update: (id: number, data: Partial<Service>) => fetchApi<Service>(`/api/services/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
@@ -106,7 +106,7 @@ export const servicesApi = {
 export const blogApi = {
   getPosts: (params?: { page?: number; pageSize?: number; categoryId?: number; tag?: string; search?: string }) =>
     fetchApi<{ posts: BlogPost[]; total: number; page: number; pageSize: number }>('/api/blog', { params: params as Record<string, string | number> }),
-  getBySlug: (slug: string) => fetchApi<BlogPost>(`/api/blog/slug/${slug}`),
+  getBySlug: (slug: string) => fetchApi<BlogPost>(`/api/blog/${slug}`),
   getRecent: (count?: number) => fetchApi<BlogPost[]>(`/api/blog/recent`, { params: { count: count || 5 } }),
   getCategories: () => fetchApi<BlogCategory[]>('/api/blog/categories'),
   create: (data: Partial<BlogPost>) => fetchApi<BlogPost>('/api/blog', { method: 'POST', body: JSON.stringify(data) }),
@@ -125,7 +125,7 @@ export const testimonialsApi = {
 // Case Studies
 export const caseStudiesApi = {
   getAll: () => fetchApi<CaseStudy[]>('/api/casestudies'),
-  getBySlug: (slug: string) => fetchApi<CaseStudy>(`/api/casestudies/slug/${slug}`),
+  getBySlug: (slug: string) => fetchApi<CaseStudy>(`/api/casestudies/${slug}`),
   create: (data: Partial<CaseStudy>) => fetchApi<CaseStudy>('/api/casestudies', { method: 'POST', body: JSON.stringify(data) }),
   update: (id: number, data: Partial<CaseStudy>) => fetchApi<CaseStudy>(`/api/casestudies/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id: number) => fetchApi<void>(`/api/casestudies/${id}`, { method: 'DELETE' }),
@@ -134,7 +134,7 @@ export const caseStudiesApi = {
 // Industries
 export const industriesApi = {
   getAll: () => fetchApi<IndustrySolution[]>('/api/industries'),
-  getBySlug: (slug: string) => fetchApi<IndustrySolution>(`/api/industries/slug/${slug}`),
+  getBySlug: (slug: string) => fetchApi<IndustrySolution>(`/api/industries/${slug}`),
   create: (data: Partial<IndustrySolution>) => fetchApi<IndustrySolution>('/api/industries', { method: 'POST', body: JSON.stringify(data) }),
   update: (id: number, data: Partial<IndustrySolution>) => fetchApi<IndustrySolution>(`/api/industries/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id: number) => fetchApi<void>(`/api/industries/${id}`, { method: 'DELETE' }),

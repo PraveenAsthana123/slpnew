@@ -68,26 +68,35 @@ function formatDate(dateString: string): string {
   });
 }
 
-function BlogPostCard({ post }: { post: BlogPost }) {
+function getGradient(index: number): string {
+  const gradients = [
+    'from-primary-600 via-primary-700 to-primary-900',
+    'from-accent-600 via-accent-700 to-primary-800',
+    'from-dark-700 via-primary-800 to-dark-900',
+    'from-primary-800 via-accent-700 to-primary-600',
+    'from-dark-800 via-dark-700 to-primary-900',
+    'from-accent-700 via-primary-700 to-dark-800',
+  ];
+  return gradients[index % gradients.length];
+}
+
+function BlogPostCard({ post, index }: { post: BlogPost; index: number }) {
   return (
     <article className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-dark-100">
-      {/* Featured Image */}
-      <div className="relative h-52 bg-gradient-to-br from-primary-100 to-accent-100 overflow-hidden">
-        {post.featuredImageUrl ? (
-          <img
-            src={post.featuredImageUrl}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg className="w-16 h-16 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-          </div>
-        )}
+      {/* Featured Image / Gradient */}
+      <div className={`relative h-52 bg-gradient-to-br ${getGradient(index)} overflow-hidden`}>
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-4 right-4 w-32 h-32 bg-white rounded-full blur-2xl" />
+          <div className="absolute bottom-4 left-4 w-24 h-24 bg-white rounded-full blur-2xl" />
+        </div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white/90 px-6">
+          <svg className="w-10 h-10 mb-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+          <p className="text-sm font-medium text-center opacity-80 line-clamp-2">{post.title}</p>
+        </div>
         {post.category && (
-          <span className="absolute top-3 left-3 px-3 py-1 bg-primary-600 text-white text-xs font-semibold rounded-full shadow-md">
+          <span className="absolute top-3 left-3 px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/20">
             {post.category.name}
           </span>
         )}
@@ -169,8 +178,8 @@ async function BlogContent({ searchParams }: BlogPageProps) {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {data.posts.map((post) => (
-              <BlogPostCard key={post.id} post={post} />
+            {data.posts.map((post, idx) => (
+              <BlogPostCard key={post.id} post={post} index={idx} />
             ))}
           </div>
 

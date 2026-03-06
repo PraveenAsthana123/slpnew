@@ -25,7 +25,7 @@ export default function CareersPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-24 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 pt-32 pb-16 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           {[...Array(6)].map((_, i) => (
             <div

@@ -50,27 +50,20 @@ export default function BlogSection({ posts }: BlogSectionProps) {
               className="group block"
             >
               <article className="card border border-dark-100 p-0 overflow-hidden h-full group-hover:-translate-y-1 transition-all duration-300">
-                {/* Image placeholder */}
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  {post.featuredImageUrl ? (
-                    <img
-                      src={post.featuredImageUrl}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className={`w-full h-full ${
-                      index === 0
-                        ? 'bg-gradient-to-br from-primary-500 to-primary-700'
-                        : index === 1
-                        ? 'bg-gradient-to-br from-accent-500 to-accent-700'
-                        : 'bg-gradient-to-br from-blue-500 to-purple-700'
-                    } flex items-center justify-center`}>
-                      <svg className="w-12 h-12 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                      </svg>
-                    </div>
-                  )}
+                {/* Gradient header */}
+                <div className={`relative aspect-[16/9] overflow-hidden ${
+                  index === 0
+                    ? 'bg-gradient-to-br from-primary-600 to-primary-800'
+                    : index === 1
+                    ? 'bg-gradient-to-br from-accent-600 to-primary-700'
+                    : 'bg-gradient-to-br from-dark-700 to-primary-900'
+                }`}>
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-3 right-3 w-20 h-20 bg-white rounded-full blur-xl" />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center px-6">
+                    <p className="text-white/80 text-sm font-medium text-center line-clamp-2">{post.title}</p>
+                  </div>
                 </div>
 
                 {/* Content */}

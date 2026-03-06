@@ -11,7 +11,7 @@ interface ServicePageProps {
 
 async function getService(slug: string): Promise<Service | null> {
   try {
-    const res = await fetch(`${API_URL}/api/services/slug/${slug}`, {
+    const res = await fetch(`${API_URL}/api/services/${slug}`, {
       next: { revalidate: 300 },
     });
     if (!res.ok) return null;

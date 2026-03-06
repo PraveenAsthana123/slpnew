@@ -11,7 +11,7 @@ interface IndustryPageProps {
 
 async function getIndustry(slug: string): Promise<IndustrySolution | null> {
   try {
-    const res = await fetch(`${API_URL}/api/industries/slug/${slug}`, {
+    const res = await fetch(`${API_URL}/api/industries/${slug}`, {
       next: { revalidate: 300 },
     });
     if (!res.ok) return null;

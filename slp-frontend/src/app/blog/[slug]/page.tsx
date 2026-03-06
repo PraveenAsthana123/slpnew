@@ -11,7 +11,7 @@ interface BlogPostPageProps {
 
 async function getPost(slug: string): Promise<BlogPost | null> {
   try {
-    const res = await fetch(`${API_URL}/api/blog/slug/${slug}`, {
+    const res = await fetch(`${API_URL}/api/blog/${slug}`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return null;
