@@ -4,8 +4,7 @@ import { Suspense } from 'react';
 import type { BlogPost, BlogCategory } from '@/lib/api';
 import BlogSearch from '@/components/blog/BlogSearch';
 import Pagination from '@/components/blog/Pagination';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+import { SERVER_API_URL as API_URL } from '@/lib/server-api';
 
 export const metadata: Metadata = {
   title: 'Blog - Insights & Articles',

@@ -10,8 +10,7 @@ import VideoDemoSection from '@/components/home/VideoDemoSection';
 import TeamSection from '@/components/home/TeamSection';
 import BlogSection from '@/components/home/BlogSection';
 import NewsletterSection from '@/components/home/NewsletterSection';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+import { SERVER_API_URL as API_URL } from '@/lib/server-api';
 
 export const metadata: Metadata = {
   title: 'SLP Systems - IT Management & AI Solutions | Calgary, Alberta',

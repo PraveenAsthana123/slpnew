@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Service } from '@/lib/api';
 import SafeHtml from '@/components/SafeHtml';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+import { SERVER_API_URL as API_URL } from '@/lib/server-api';
 
 interface ServicePageProps {
   params: { slug: string };
