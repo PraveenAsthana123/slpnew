@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { homeApi, type SiteSettings } from '@/lib/api';
 import { AdminFormInput, AdminFormCheckbox } from '@/components/admin/AdminFormInput';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);

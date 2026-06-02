@@ -5,7 +5,7 @@ import { homeApi, SiteSettings } from '@/lib/api';
 
 type Section = 'social' | 'smtp' | 'features' | 'api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export default function ConfigPage() {
   const [section, setSection] = useState<Section>('social');

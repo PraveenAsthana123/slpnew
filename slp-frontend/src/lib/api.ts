@@ -1,4 +1,8 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+// Empty fallback means "use same-origin relative URLs" — bundled JS then calls
+// /api/* which nginx proxies to backend. Works on localhost, behind tunnels,
+// and any reverse proxy without rebuild per environment. See global policy
+// §81 (portable-frontend-and-multisite-hosting.md).
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 const REQUEST_TIMEOUT_MS = 30000;
 

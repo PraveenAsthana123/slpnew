@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as signalR from '@microsoft/signalr';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 interface Message {
   id: string;

@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import * as signalR from '@microsoft/signalr';
 import { customerAuthApi, liveChatApi, ChatMessage, CustomerUser } from '@/lib/api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 function CustomerChatInner() {
   const searchParams = useSearchParams();

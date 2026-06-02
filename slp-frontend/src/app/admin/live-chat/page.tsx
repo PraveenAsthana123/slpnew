@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as signalR from '@microsoft/signalr';
 import { liveChatApi, ChatSession, ChatMessage } from '@/lib/api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 interface ActiveSession extends ChatSession {
   isActive?: boolean;

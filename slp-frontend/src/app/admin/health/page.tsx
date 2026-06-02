@@ -14,7 +14,7 @@ export default function SystemHealthPage() {
       setLoading(true);
       const [systemData, checkData] = await Promise.all([
         monitoringApi.getSystemHealth(),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5062'}/api/health`, { credentials: 'include' })
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/health`, { credentials: 'include' })
           .then(r => r.json())
           .catch(() => null),
       ]);
