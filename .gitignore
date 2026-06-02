@@ -43,3 +43,36 @@ logs/
 # ─── OS ───────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+.codersinflow
+.vscode
+node_modules
+.venv
+.codex
+out
+dist
+*.vsix
+.claude
+CLAUDE.md
+.git
+*.tmp
+__pycache__
+*.pyc
+.next
+.github
+
+# ─── Local agent / bootstrap artifacts (§80 global bootstrap) ────────────────
+.agent/
+.remember/
+
+# ─── Test run output ──────────────────────────────────────────────────────────
+# Keep the run_*.{py,js} scripts under jobs/reports/ tracked, ignore their output.
+jobs/reports/api_test_*.json
+jobs/reports/api_test_*.md
+jobs/reports/api_audit_*.json
+jobs/reports/api_audit_*.md
+jobs/reports/playwright_smoke_*.json
+jobs/reports/playwright_smoke_*.md
+jobs/reports/playwright_*/
+jobs/reports/test_*.json
+jobs/reports/test_*.md
+jobs/reports/run_api_tests.sh

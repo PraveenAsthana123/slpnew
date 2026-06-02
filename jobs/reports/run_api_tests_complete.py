@@ -362,6 +362,61 @@ def main() -> int:
             results.append(probe(admin, f"{kind}-delete-teardown", [200, 204, 404],
                                  url, method="DELETE"))
 
+    # ── 3h. UsersController lifecycle (admin-only) ────────────────────
+    # Create a disposable Editor user, list, change roles, delete, verify gone.
+    test_user_email = f"smoke-user-{TS.lower()}@example.com"
+    test_user_id: str | None = None
+    try:
+        r = probe(admin, "user-create", [200, 201], f"{BACKEND}/api/admin/users",
+                  method="POST",
+                  body={"email": test_user_email, "password": "Smoke@123456", "role": "Editor"})
+        results.append(r)
+        if r["ok"]:
+            try:
+                obj = json.loads(r["excerpt"][:200] + "}" if not r["excerpt"].endswith("}") else r["excerpt"])
+                test_user_id = obj.get("id") if isinstance(obj, dict) else None
+            except Exception:
+                import re
+                m = re.search(r'"id"\s*:\s*"([0-9a-f-]+)"', r["excerpt"])
+                test_user_id = m.group(1) if m else None
+
+        results.append(probe(admin, "user-list-after-create", 200, f"{BACKEND}/api/admin/users"))
+
+        if test_user_id:
+            results.append(probe(admin, "user-update-roles", 200,
+                                 f"{BACKEND}/api/admin/users/{test_user_id}/roles",
+                                 method="PUT", body={"roles": ["HR"]}))
+
+        # Negative: invalid role
+        results.append(probe(admin, "user-create-invalid-role", 400,
+                             f"{BACKEND}/api/admin/users", method="POST",
+                             body={"email": f"bad-{TS.lower()}@example.com",
+                                   "password": "Smoke@123456", "role": "BogusRole"}))
+        # Negative: missing email
+        results.append(probe(admin, "user-create-missing-email", 400,
+                             f"{BACKEND}/api/admin/users", method="POST",
+                             body={"password": "Smoke@123456", "role": "Editor"}))
+        # Negative: delete non-existent
+        results.append(probe(admin, "user-delete-404", 404,
+                             f"{BACKEND}/api/admin/users/00000000-0000-0000-0000-000000000000",
+                             method="DELETE"))
+        # Negative: self-delete forbidden
+        me = probe(admin, "_internal-me-for-self-delete", 200, f"{BACKEND}/api/auth/me")
+        import re as _re
+        m = _re.search(r'"id"\s*:\s*"([0-9a-f-]+)"', me["excerpt"])
+        if m:
+            results.append(probe(admin, "user-self-delete-forbidden", 400,
+                                 f"{BACKEND}/api/admin/users/{m.group(1)}",
+                                 method="DELETE"))
+    finally:
+        if test_user_id:
+            results.append(probe(admin, "user-delete-teardown", [200, 204, 404],
+                                 f"{BACKEND}/api/admin/users/{test_user_id}", method="DELETE"))
+            # Post-teardown: PUT roles on deleted user → 404
+            results.append(probe(admin, "user-update-roles-after-delete", 404,
+                                 f"{BACKEND}/api/admin/users/{test_user_id}/roles",
+                                 method="PUT", body={"roles": ["Editor"]}))
+
     # ── 4. Admin logout + post-logout 401 ─────────────────────────────
     results.append(probe(admin, "admin-logout", 200, f"{BACKEND}/api/auth/logout", method="POST", body={}))
     results.append(probe(admin, "admin-me-after-logout", 401, f"{BACKEND}/api/auth/me"))
